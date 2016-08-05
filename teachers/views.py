@@ -22,7 +22,7 @@ class TeacherList(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-# Complete CRUD for teacher
+# R-U-D for teacher //read, update, delete
 class TeacherInstance(APIView):
     def get_object(self, pk):
         try:
@@ -70,7 +70,7 @@ class QuestionList(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-# Complete CRUD for question
+# Complete R-U-D for question
 class QuestionInstance(APIView):
     def get_object(self, pk):
         try:
@@ -118,7 +118,7 @@ class AnswerList(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-# CRUD for particular Answer
+# R-U-D for particular Answer
 class AnswerInstance(APIView):
     def get_object(self, pk):
         try:
