@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'teachers',
+    'audience',
 ]
 
 MIDDLEWARE_CLASSES = [
