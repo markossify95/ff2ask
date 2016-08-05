@@ -70,6 +70,7 @@ class QuestionList(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+# Complete CRUD for question
 class QuestionInstance(APIView):
     def get_object(self, pk):
         try:
@@ -117,6 +118,7 @@ class AnswerList(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+# CRUD for particular Answer
 class AnswerInstance(APIView):
     def get_object(self, pk):
         try:
@@ -147,3 +149,28 @@ class AnswerInstance(APIView):
         answer = self.get_object(pk)
         answer.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+# increments particular answer by 1
+# First implement basic version, which doesnt depend on type of question
+# I will later implement the version which checks the type of question for quicker action
+class Voter(APIView):
+    def get_object(self, pk):
+        try:
+            return TQAnswer.objects.get(pk=pk)
+        except TQAnswer.DoesNotExist:
+            raise Http404
+
+    def put(self, request, pk, fk):
+        answer = self.get_object(pk)
+        d = {
+            'id': pk,
+            'tq_answer_text': answer.tq_answer_text,
+            'score': answer.score + 1,
+            'question_id': fk  # maybe extract this from answer object and not req, THINK ABOUT IT!
+        }
+        serializer = TQAnswerSerializer(answer, data=d)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
