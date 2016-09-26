@@ -1,0 +1,16 @@
+{% extends 'audience/base.html' %}
+{% block title %}Add new question{% endblock %}
+{% block body %}
+    <h2>New question</h2>
+    <form action="{% url 'audience:new-aq' %}" method="post">
+    {% csrf_token %}
+        <!-- ulepsaj formu debilko! I NAME JE IZGLEDA OBAVEZAN, ID MU NE UTICE MAMICU MU-->
+        <label for="aq_text">Enter your question here:</label>
+        <textarea rows="5" cols="30" name="aq_text" id="aq_text"></textarea>
+        <!--
+        <input type="text" width="50" height="100" maxlength="500" name="aq_text" id="aq_text"/>
+        -->
+        <br>
+        <input type="submit" value="Add!">
+    </form>
+{% endblock %}

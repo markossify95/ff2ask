@@ -1,0 +1,10 @@
+{% extends 'audience/base.html' %}
+{% block title %}All questions{% endblock %}
+{% block body %}
+
+    <h2>LISTA SVIH PITANJA</h2>
+    <br>
+    {% for q in questions %}
+        <h5>QUESTION: {{ q.aq_text }}   | SCORE: {{ q.score }}</h5>
+    {% endfor %}
+{% endblock %}

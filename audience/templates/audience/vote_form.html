@@ -1,0 +1,37 @@
+{% extends 'audience/base.html' %}
+{% block title %} Vote for questions {% endblock %}
+{% block body %}
+    <script src="https://code.jquery.com/jquery-3.1.1.js"
+            integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA=" crossorigin="anonymous"></script>
+    <hr>
+
+    <form id="voter" method="post" action="">
+        {% csrf_token %}
+        {% for q in questions %}
+            <label for="question{{ q.id }}">{{ forloop.counter }}. {{ q.aq_text }}</label>
+            <input type="radio" id="question{{ q.id }}" name="question" value="{{ q.id }}">
+            <br>
+        {% endfor %}
+        <input type="submit" value="Vote!">
+    </form>
+
+    <script type="text/javascript">
+        $(document).on('submit', '#voter', function (e) {
+            e.preventDefault(); //OVA LINIJA KODA BRANI OSVEZAVANJE STRANICE, TO NIJE LOSE ALI RAZMOTRITI!
+            var pk = $("form input[type='radio']:checked").val();
+            alert("Value is: " + pk);
+            var path = '/audience/questions/vote/' + pk + '/';
+            $.ajax({
+                type: 'PUT',
+                url: path,
+                data: {
+                    csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+                },
+                /*headers: {'X_METHODOVERRIDE': 'PUT'}, */ //IMPLEMENTIRATI KAKO BI RADILO NA SVIM BROWSERIMA!
+                success: function () {
+                    alert("Voting successful!");
+                }
+            });
+        });
+    </script>
+{% endblock %}
