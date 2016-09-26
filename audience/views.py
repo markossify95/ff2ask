@@ -99,8 +99,16 @@ class Voter(APIView):
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    """
-    def put(self, request, pk): #PROVERI DA LI RADI SA NONE!!!
+"""
+#OVA KLASA OMOGUCAVA GLASANJE PREKO JEDNOSTAVNE GET METODE...RAZMISLI!!!
+class VoterTakeTwo(APIView):
+    def get_object(self, pk):
+        try:
+            return AudienceQuestion.objects.get(pk=pk)
+        except AudienceQuestion.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk):
         vote = self.get_object(pk)
         d = {
             'id': pk,
@@ -112,5 +120,4 @@ class Voter(APIView):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    """
+"""
